@@ -1,3 +1,6 @@
+// Transaction.jsx
+
+import React from "react";
 import { FaTrash } from "react-icons/fa";
 import "./Transaction.css";
 import alimentation from "../../assets/alimentation.png";

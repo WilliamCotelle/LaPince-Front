@@ -22,11 +22,6 @@
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.budget-item:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
 .budget-item h3 {
   font-size: var(--font-size-large);
   margin-bottom: var(--spacing-small);

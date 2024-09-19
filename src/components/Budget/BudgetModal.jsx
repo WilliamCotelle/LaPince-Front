@@ -3,42 +3,36 @@ import { toast } from "react-toastify";
 import { fetchCategories } from "../../api/transactionService";
 import "./BudgetPage.css";
 
-// Composant pour afficher un modal de création de budget
 const BudgetModal = ({
-  isOpen, // État pour déterminer si le modal est ouvert ou fermé
-  onClose, // Fonction pour fermer le modal
-  handleSubmit, // Fonction pour gérer la soumission du formulaire
-  newBudget, // Données du nouveau budget
-  handleInputChange, // Fonction pour gérer les changements dans les champs du formulaire
+  isOpen,
+  onClose,
+  handleSubmit,
+  newBudget,
+  handleInputChange,
 }) => {
-  // État local pour stocker les catégories et l'état de chargement
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Effet pour récupérer les catégories lorsque le modal est ouvert
   useEffect(() => {
     if (isOpen) {
       const fetchCategoriesData = async () => {
         try {
-          // Récupère le token depuis le stockage local
           const token = localStorage.getItem("token");
           if (!token) {
             throw new Error("Token non trouvé");
           }
-          // Récupère les catégories depuis l'API
           const data = await fetchCategories(token);
-          setCategories(data); // Met à jour l'état avec les catégories récupérées
+          setCategories(data);
         } catch (error) {
           toast.error("Erreur lors de la récupération des catégories");
         } finally {
-          setLoading(false); // Met fin à l'état de chargement
+          setLoading(false);
         }
       };
       fetchCategoriesData();
     }
-  }, [isOpen]); // Dépendance sur isOpen pour déclencher l'effet lorsque le modal s'ouvre
+  }, [isOpen]);
 
-  // Retourne null si le modal n'est pas ouvert
   if (!isOpen) return null;
 
   return (
