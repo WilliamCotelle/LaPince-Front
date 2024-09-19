@@ -3,17 +3,26 @@
 import React from "react";
 import { FaTrash } from "react-icons/fa";
 import "./Transaction.css";
+import alimentation from "../.assets/alimentation.png";
+import logement from "../../assets/logement.png";
+import loisirs from "../../assets/loisirs.png";
+import sante from "../../assets/sante.png";
+import transport from "../../assets/transport.png";
+import divertissement from "../../assets/divertissement.png";
+import autre from "../../assets/autre.png";
+import carte from "../../assets/carte.png";
+import defaultImage from "  ../../assets/default.png";
 
-const imageMapping = {
-  1: "src/assets/alimentation.png",
-  2: "src/assets/logement.png",
-  3: "src/assets/loisirs.png",
-  4: "src/assets/sante.png",
-  5: "src/assets/transport.png",
-  6: "src/assets/divertissement.png",
-  7: "src/assets/autre.png",
-  credit: "src/assets/carte.png",
-  default: "/assets/default_image.png",
+export const imageMapping = {
+  1: alimentation,
+  2: logement,
+  3: loisirs,
+  4: sante,
+  5: transport,
+  6: divertissement,
+  7: autre,
+  credit: carte,
+  default: defaultImage,
 };
 
 const Transaction = ({ transactions, onDeleteTransaction }) => {
