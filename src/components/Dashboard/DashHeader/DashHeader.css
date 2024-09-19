@@ -1,0 +1,78 @@
+/* Mobile First (Petits écrans) */
+.dashheader {
+  padding: var(--spacing-medium);
+  background-color: var(--color-white);
+  color: var(--color-secondary);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-medium);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1em;
+}
+
+.greeting {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+}
+
+.account-select {
+  width: 100%;
+  max-width: 300px; /* Pour éviter que le sélecteur soit trop large sur les petits écrans */
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+  display: flex; /* Pour éviter les débordements de bordure */
+  align-items: center; /* Centrer verticalement le texte et l'élément select */
+}
+.select:hover {
+  cursor: pointer;
+  background-color: var(--color-secondary-light);
+}
+.select {
+  width: 100%;
+  padding: var(--spacing-small);
+  border: 1px solid var(--border-color); /* Ajouter une bordure pour la visibilité */
+  color: var(--color-secondary);
+  border-radius: var(--border-radius-medium);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  outline: none;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  background-color: var(--color-white);
+  appearance: none; /* Supprimer le style natif du select */
+  background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"%3E%3Cpath d="M1 5l7 7 7-7z" fill="%23333"/%3E%3C/svg%3E'); /* Ajouter une flèche personnalisée */
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-small) center;
+  background-size: 1em auto;
+}
+
+/* Desktop (Grands écrans) */
+@media (min-width: 768px) {
+  .dashheader {
+    padding: var(--spacing-medium);
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-large);
+  }
+
+  .greeting {
+    font-size: var(--font-size-large);
+    text-align: left;
+  }
+
+  .account-select {
+    max-width: none; /* Enlever la largeur maximale sur les grands écrans */
+    width: 15rem;
+  }
+
+  .select {
+    font-size: var(--font-size-base);
+  }
+}

@@ -1,0 +1,212 @@
+/* Styles globaux pour tous les écrans */
+.header {
+  width: 100%;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1); /* Ombre plus douce */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transition fluide */
+}
+
+/* Container centralisant le contenu */
+.header-container {
+  width: 100%;
+  height: 64px; /* Hauteur réduite pour un header plus fin */
+  padding: 0 var(--spacing-small); /* Padding pour mobile */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  text-decoration: none;
+  transition: opacity 0.3s ease; /* Transition lors du hover */
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.logo img {
+  width: 50px; /* Légèrement plus grand pour plus de visibilité */
+  height: 50px;
+}
+
+.logo .la-pince {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  letter-spacing: 0.5px; /* Ajoute un léger espacement entre les lettres */
+}
+
+/* Barre d'actions à droite */
+.account-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-medium);
+  justify-content: center;
+}
+
+/* Icône de notification */
+.icon-bell {
+  width: 24px;
+  height: 24px;
+  color: var(--color-secondary);
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease; /* Ajout d'une légère rotation au hover */
+}
+
+.icon-bell:hover {
+  color: var(--color-primary);
+  transform: rotate(15deg); /* Rotation subtile */
+}
+
+/* Image de profil */
+.profile-picture {
+  width: 36px; /* Taille un peu plus grande pour plus de modernité */
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid var(--border-color);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Ajout d'une ombre au hover */
+}
+
+.profile-picture:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Ombre douce au hover */
+}
+
+/* Bouton du menu burger */
+.menus-toggle {
+  display: block; /* Afficher sur les petits écrans */
+  background: none;
+  border: none;
+  font-size: 28px; /* Légèrement plus grand */
+  cursor: pointer;
+  color: var(--color-secondary);
+  transition: color 0.3s ease, transform 0.3s ease; /* Ajout d'une transformation au hover */
+}
+
+.menus-toggle:hover {
+  color: var(--color-primary);
+  transform: rotate(90deg); /* Rotation fluide au hover */
+}
+
+/* Menu de navigation */
+.menus {
+  display: none; /* Cacher par défaut sur mobile */
+}
+
+/* Styles pour le menu ouvert */
+.menus.open {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 64px; /* Aligné avec la hauteur du header */
+  left: 0;
+  right: 0;
+  background-color: var(--color-white);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Ombre plus moderne */
+  z-index: 1001;
+  animation: slideDown 0.3s ease-in-out; /* Animation d'apparition */
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Styles pour les éléments du menu */
+.menus-item {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: var(--spacing-small) var(--spacing-medium);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-secondary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menus-item:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.auth-link {
+  width: 100%;
+  text-align: center;
+  padding: var(--spacing-small) var(--spacing-medium);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-secondary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.auth-link:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* Media query pour les tablettes et plus grands écrans */
+@media (min-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-large); /* Plus d'espace pour les écrans plus grands */
+  }
+
+  .logo .la-pince {
+    font-size: var(--font-size-large);
+  }
+
+  .account-menu {
+    gap: var(--spacing-large);
+  }
+
+  .menus-toggle {
+    display: none; /* Cacher le bouton burger sur les grands écrans */
+  }
+
+  .menus {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-large);
+  }
+
+  .menus-item {
+    position: relative;
+    padding: var(--spacing-small) var(--spacing-medium);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-secondary);
+    text-decoration: none;
+    border-radius: var(--border-radius-small);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .menus-item:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+
+  .menus-item.active {
+    background-color: var(--color-primary-lighter);
+    color: var(--color-primary);
+  }
+}

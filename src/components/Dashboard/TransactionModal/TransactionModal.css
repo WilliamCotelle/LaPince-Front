@@ -1,0 +1,143 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--color-white);
+  padding: var(--spacing-large);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--box-shadow);
+  width: 400px;
+  max-width: 90%;
+  position: relative; /* Important pour positionner la croix de fermeture */
+}
+
+.error-message {
+  color: red;
+  margin-bottom: var(--spacing-small);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: var(--spacing-medium);
+}
+
+h3 {
+  margin-bottom: 5%;
+}
+
+.modal-select {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+  width: 100%;
+  padding: var(--spacing-small) var(--spacing-medium);
+  font-size: var(--font-size-base);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-small);
+  outline: none;
+  margin-bottom: 3%;
+}
+
+/* Survol du select */
+.modal-select:hover {
+  background-color: var(--color-primary); /* Fond bleu au hover */
+  color: var(--color-white); /* Texte blanc au hover */
+}
+
+/* Quand le select est en focus ou ouvert */
+.modal-select:focus {
+  background-color: var(--color-primary); /* Reste bleu une fois cliqué */
+  color: var(--color-white); /* Texte blanc une fois cliqué */
+}
+
+/* Options à l'intérieur du select */
+.modal-select option {
+  background-color: var(--color-white); /* Fond blanc par défaut */
+  color: var(--color-text); /* Texte bleu par défaut */
+}
+
+/* Survol des options */
+.modal-select option:hover {
+  background-color: var(--color-primary); /* Fond bleu au hover */
+  color: var(--color-white); /* Texte blanc au hover */
+}
+
+.modal-option {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+  width: 50%;
+  padding: var(--spacing-small) var(--spacing-medium);
+  font-size: var(--font-size-base);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-small);
+  outline: none;
+}
+
+.modal-input {
+  width: 100%;
+  padding: var(--spacing-small) var(--spacing-medium);
+  font-size: var(--font-size-base);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-small);
+  outline: none;
+  background-color: var(--color-background-light); /* Légère couleur de fond */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+.add-button {
+  padding: var(--spacing-small) var(--spacing-medium);
+  border: none;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #6495ed;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-button {
+  background-color: var(--color-secondary);
+  padding: var(--spacing-small) var(--spacing-medium);
+  border: none;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-white);
+  transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: rgba(196, 0, 0, 0.5);
+  transition: background-color 0.3s ease;
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--color-dark);
+}
+
+.modal-close-button:hover {
+  color: var(--color-primary);
+}

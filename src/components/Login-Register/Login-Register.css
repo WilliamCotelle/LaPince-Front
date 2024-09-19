@@ -1,0 +1,136 @@
+/* auth.css */
+
+/* Styles pour la gestion de la visibilité des mots de passe */
+.password-container {
+  position: relative; /* Pour permettre le positionnement absolu de l'icône */
+}
+
+.password-container input {
+  padding-right: 30px; /* Ajouter de l'espace pour l'icône */
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--color-primary); /* Couleur de l'icône */
+  font-size: 1.2rem; /* Taille de l'icône */
+}
+
+/* Styles pour les autres éléments */
+.auth-container {
+  max-width: 400px;
+  margin: var(--spacing-xlarge) auto;
+  padding: var(--spacing-large);
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* Légère transparence pour effet glassmorphism */
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Ombre plus douce et profonde */
+  border-radius: var(--border-radius-medium);
+  transition: transform 0.3s ease-in-out;
+}
+
+.auth-container h2 {
+  margin-bottom: var(--spacing-large);
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  color: var(--color-primary);
+  letter-spacing: 0.5px; /* Espacement léger pour plus d'élégance */
+}
+
+.form-group {
+  margin-bottom: var(--spacing-medium);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--spacing-small);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  letter-spacing: 0.5px;
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--spacing-small) var(--spacing-medium);
+  font-size: var(--font-size-base);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-small);
+  outline: none;
+  background-color: var(--color-background-light); /* Légère couleur de fond */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+  background-color: rgba(255, 255, 255, 0.9); /* Changement de fond au focus */
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1); /* Ombre externe au focus */
+}
+
+.form-button {
+  width: 100%;
+  padding: var(--spacing-small);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Effet d'ombre 3D */
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: var(--font-size-small);
+  margin-bottom: var(--spacing-small);
+  padding: var(--spacing-small);
+  border-left: 4px solid #e74c3c;
+  background-color: rgba(231, 76, 60, 0.1); /* Fond léger pour l'erreur */
+  border-radius: var(--border-radius-small);
+}
+
+.success-message {
+  color: #27ae60;
+  font-size: var(--font-size-small);
+  margin-bottom: var(--spacing-small);
+  padding: var(--spacing-small);
+  border-left: 4px solid #27ae60;
+  background-color: rgba(39, 174, 96, 0.1); /* Fond léger pour le succès */
+  border-radius: var(--border-radius-small);
+}
+
+/* Pour aligner le bouton de redirection vers la connexion */
+.redirect-link {
+  text-align: center;
+  margin-top: var(--spacing-large);
+}
+
+.redirect-link p {
+  margin-bottom: var(--spacing-small);
+  font-size: var(--font-size-small);
+  color: var(--color-text-light);
+}
+
+.redirect-link .form-button {
+  width: auto;
+  padding: var(--spacing-small) var(--spacing-medium);
+  font-size: var(--font-size-base);
+  display: inline-block;
+}
+
+.disabled-input {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+  border: 1px solid #ccc;
+}

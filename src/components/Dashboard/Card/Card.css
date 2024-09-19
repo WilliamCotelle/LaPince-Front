@@ -1,0 +1,71 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-small);
+  width: 100%;
+  padding: var(--spacing-small);
+  border-radius: var(--border-radius-medium);
+  background-color: var(--color-white);
+  box-shadow: var(--box-shadow);
+  box-sizing: border-box;
+  margin-bottom: var(--spacing-medium);
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card-title {
+  color: var(--color-secondary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+}
+
+.value-and-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-medium);
+  width: 100%;
+}
+
+.card-value {
+  color: var(--color-primary);
+  font-size: 36px;
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+}
+
+.card-icon {
+  font-size: 36px;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-small);
+}
+
+.card-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: var(--color-primary-lighter);
+  border-radius: var(--border-radius-medium) 0 0 0;
+}
+
+.card-progress-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  transition: width 0.3s;
+  border-radius: var(--border-radius-medium) 0 0 0;
+}
+
+/* Desktop (Grands écrans) */
+@media (min-width: 768px) {
+  .card {
+    /* width: calc(
+      33.333% - var(--spacing-large)
+    ); Ajuster la largeur des cartes pour les grands écrans */
+    margin-bottom: var(--spacing-large);
+  }
+}

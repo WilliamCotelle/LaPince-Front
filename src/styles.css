@@ -1,0 +1,68 @@
+/* Importation de la police Inter */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
+/* Définition des variables CSS pour la charte graphique */
+:root {
+  /* Couleurs primaires */
+  --color-primary: #155eef;
+  --color-primary-light: #f5f8ff;
+  --color-primary-lighter: #e0e7ff;
+
+  /* Couleurs secondaires */
+  --color-secondary: #516778;
+  --color-secondary-light: #eceff2;
+
+  /* Couleurs de base */
+  --color-white: #ffffff;
+  --color-background: #f9fafb;
+  --color-text: #333;
+
+  /* Typographie */
+  --font-family-base: "Inter", sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+
+  /* Tailles de police */
+  --font-size-base: 16px;
+  --font-size-small: 14px;
+  --font-size-large: 20px;
+
+  /* Espacement */
+  --spacing-small: 8px;
+  --spacing-medium: 16px;
+  --spacing-large: 24px;
+  --spacing-xlarge: 32px;
+
+  /* Bordures */
+  --border-radius-small: 4px;
+  --border-radius-medium: 8px;
+  --border-color: #eceff2;
+
+  /* Ombres */
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Styles généraux du body */
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Assure que le conteneur principal prend toute la hauteur de la fenêtre */
+}
+
+/* Contenu principal qui prend tout l'espace disponible */
+main {
+  flex: 1;
+}

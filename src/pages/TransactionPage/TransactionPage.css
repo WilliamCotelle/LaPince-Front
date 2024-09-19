@@ -1,0 +1,76 @@
+.transaction-page {
+  padding: var(--spacing-medium);
+}
+
+.search-bar {
+  margin: 20px;
+  padding: 10px;
+  width: 100%;
+  max-width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+/* Le bouton pour ouvrir/fermer le menu */
+.category-toggle-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 10px 0;
+  width: 100%; /* Pour s'assurer qu'il prend toute la largeur */
+  text-align: center;
+}
+
+.category-toggle-button:hover {
+  background-color: #0056b3;
+}
+
+/* Conteneur du menu déroulant avec les icônes */
+.category-dropdown {
+  display: flex;
+  flex-wrap: wrap; /* Permet de mettre les icônes en ligne et de les renvoyer à la ligne si nécessaire */
+  gap: 10px; /* Espacement entre les icônes */
+  justify-content: center; /* Aligner les icônes au centre */
+  margin-top: 10px; /* Espacement avec le bouton */
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ajout d'une ombre légère */
+  max-width: 100%; /* S'assure que le conteneur ne dépasse pas la largeur parent */
+}
+
+/* Icônes des catégories */
+.category-icon {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  transition: border 0.3s ease;
+}
+
+.category-icon.selected {
+  border-color: #007bff; /* Couleur de sélection */
+}
+
+.category-dropdown img {
+  margin: 5px;
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s ease;
+}
+
+/* Effet au survol des icônes */
+.category-dropdown img:hover {
+  transform: scale(1.1);
+}
+
+@media (min-width: 768px) {
+  .transaction-page {
+    padding: var(--spacing-medium);
+    margin: 0 2rem;
+  }
+}

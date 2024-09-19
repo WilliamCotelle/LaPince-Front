@@ -1,0 +1,91 @@
+/* Mobile First (Petits écrans) */
+.cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px; /* Taille des boutons */
+  height: 60px;
+  border: none;
+  border-radius: 8px; /* Coins légèrement arrondis pour mobile */
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  padding: var(--spacing-small);
+}
+
+.cta:hover {
+  background-color: var(--color-primary-light);
+}
+
+.icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  font-size: 24px;
+}
+
+.icon {
+  font-size: 24px;
+}
+
+/* Texte caché en mobile */
+.text-2 {
+  display: none;
+}
+
+/* Desktop (Grands écrans) */
+@media (min-width: 768px) {
+  .cta {
+    width: 100%; /* Taille standard pour desktop */
+    height: 88px;
+    border-radius: var(--border-radius-medium); /* Plus rectangulaire */
+    padding: var(--spacing-large);
+    flex-direction: row;
+    gap: var(--spacing-medium);
+  }
+
+  .icon-wrapper {
+    width: 48px;
+    height: 48px;
+  }
+
+  .text-2 {
+    display: block; /* Afficher le texte sur desktop */
+  }
+
+  .text {
+    color: var(--color-text);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .supporting-text {
+    color: var(--color-secondary);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+  }
+}
+
+/* Styles pour les boutons d'ajout de revenu */
+.cta.income .icon-wrapper {
+  background-color: #e0f7fa; /* Fond vert clair */
+}
+
+.cta.income .icon {
+  color: #0B9055; /* Icône vert foncé */
+}
+
+/* Styles pour les boutons d'ajout de dépense */
+.cta.expense .icon-wrapper {
+  background-color: #ffebee; /* Fond rouge clair */
+}
+
+.cta.expense .icon {
+  color: #D92D20; /* Icône rouge foncé */
+}

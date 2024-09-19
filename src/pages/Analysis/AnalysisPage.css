@@ -1,0 +1,77 @@
+.analysis {
+  padding: var(--spacing-medium);
+}
+/* Container principal des graphiques */
+.charts-analysis {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-large);
+  padding: var(--spacing-medium);
+}
+
+/* Style pour chaque conteneur de graphique */
+.chart-container-analysis {
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--box-shadow);
+  padding: var(--spacing-medium);
+  border: 1px solid var(--border-color);
+  width: 100%;
+  max-width: 100%; /* S'assure que le conteneur ne dépasse pas */
+  height: 350px;
+  overflow: hidden; /* Empêche tout dépassement du contenu */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Centre le contenu du graphique */
+}
+.chart-container-analysis canvas {
+  width: 100% !important; /* Assure que le canvas prend 100% de la largeur du conteneur */
+  height: 100% !important; /* Assure que le canvas prend 100% de la hauteur du conteneur */
+  max-width: 100%; /* Empêche tout dépassement de largeur */
+  max-height: 100%; /* Empêche tout dépassement de hauteur */
+}
+/* Version mobile : Les graphiques sont empilés les uns sur les autres */
+.charts-analysis {
+  display: flex;
+  flex-direction: column;
+}
+.chart-titles {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  /* Espacement entre le titre et le graphique */
+  text-align: center; /* Centre le titre */
+  letter-spacing: 0.5px;
+  /* Légère variation d'espacement des lettres pour un meilleur style */
+}
+
+/* Ajuste les tailles des titres sur les petits écrans */
+@media (max-width: 768px) {
+  .chart-titles {
+    font-size: var(--font-size-base); /* Taille de police réduite sur mobile */
+  }
+}
+/* Version desktop : Disposition en grille */
+@media (min-width: 768px) {
+  .analysis {
+    margin: 0 2rem;
+  }
+  .charts-analysis {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Deux colonnes */
+    grid-template-rows: auto auto; /* Ajuste automatiquement les lignes */
+    gap: var(--spacing-large); /* Espacement entre les éléments */
+  }
+  /* Les deux premiers graphiques prennent chacun une colonne en haut */
+  .chart-container-analysis:nth-child(3),
+  .chart-container-analysis:nth-child(2) {
+    grid-column: span 1;
+  }
+
+  /* Le troisième graphique occupe toute la largeur (en bas) */
+  .chart-container-analysis:nth-child(1) {
+    grid-column: 1 / -1; /* S'étend sur les deux colonnes */
+    grid-row: 2;
+  }
+}

@@ -1,0 +1,297 @@
+/* Variables CSS globales */
+:root {
+  --spacing-small: 8px;
+  --spacing-medium: 16px;
+  --spacing-large: 24px;
+
+  --font-size-small: 14px;
+  --font-size-base: 16px;
+  --font-weight-semibold: 600;
+
+  --color-primary: #3f51b5;
+  --color-primary-light: #c5cae9;
+  --color-secondary: #757575;
+  --color-dark: #212121;
+  --color-white: #ffffff;
+  --color-background: #f5f5f5;
+  --color-border: #cccccc;
+
+  --font-family-base: "Arial, sans-serif";
+
+  --border-radius-small: 4px;
+  --border-radius-medium: 8px;
+
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Container des transactions */
+.transaction-container {
+  margin: var(--spacing-medium);
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--box-shadow);
+}
+
+/* Table des transactions */
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-base);
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-medium);
+  overflow: hidden;
+  margin-bottom: var(--spacing-large);
+}
+
+/* En-têtes de table */
+.transaction-table thead tr {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  text-align: left;
+}
+
+.transaction-table th,
+.transaction-table td {
+  padding: var(--spacing-small) var(--spacing-medium);
+}
+
+/* Description alignée avec icône */
+.transaction-table td:first-child {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+}
+
+.transaction-table img.icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Alignement des colonnes */
+.transaction-table th:nth-child(2),
+.transaction-table td:nth-child(2),
+.transaction-table th:nth-child(3),
+.transaction-table td:nth-child(3),
+.transaction-table th:nth-child(4),
+.transaction-table td:nth-child(4),
+.transaction-table th:nth-child(5),
+.transaction-table td:nth-child(5) {
+  text-align: left;
+}
+
+/* Montants */
+.transaction-table .amount-positive {
+  color: green;
+  font-weight: var(--font-weight-semibold);
+}
+
+.transaction-table .amount-negative {
+  color: red;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Actions */
+.transaction-table td:last-child {
+  text-align: right;
+}
+
+.transaction-table .delete-icon {
+  color: red !important;
+  font-size: 1.2rem;
+  color: var(--color-secondary);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.transaction-table .delete-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Affichage lorsqu'il n'y a aucune transaction */
+.no-transaction {
+  text-align: center;
+  padding: var(--spacing-medium);
+  font-size: var(--font-size-base);
+  color: var(--color-secondary);
+}
+
+/* Responsive Design - Mobile First (Card Style) */
+.transaction-table thead {
+  display: none;
+}
+
+.transaction-table tr {
+  display: block;
+  background-color: var(--color-white);
+  margin-bottom: var(--spacing-small); /* Ajout d'espace entre chaque ligne */
+  padding: var(--spacing-medium);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: var(--border-radius-small); /* Ajout de coins arrondis */
+}
+
+.transaction-table td {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-small) 0;
+  font-size: var(--font-size-small);
+  position: relative;
+}
+
+.transaction-table td::before {
+  content: attr(data-label);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-secondary);
+  flex-basis: 40%;
+}
+
+/* Responsive Design (Desktop) */
+@media (min-width: 768px) {
+  .transaction-table {
+    display: table;
+  }
+
+  .transaction-table thead {
+    display: table-header-group;
+  }
+
+  .transaction-table tr {
+    display: table-row;
+    background-color: transparent;
+    margin-bottom: var(
+      --spacing-small
+    ); /* Ajout d'espace entre chaque ligne sur desktop */
+  }
+
+  .transaction-table th,
+  .transaction-table td {
+    display: table-cell;
+    text-align: left;
+    padding: var(--spacing-medium);
+  }
+
+  .transaction-table th:last-child,
+  .transaction-table td:last-child {
+    text-align: right;
+  }
+
+  /* Supprimer les bordures pour un look épuré */
+  .transaction-table tr {
+    border: none;
+  }
+
+  .transaction-table td {
+    border-bottom: none;
+  }
+
+  .transaction-table td::before {
+    content: none;
+  }
+}
+
+/* Styles des filtres */
+.transaction-filter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-small);
+  margin-bottom: var(--spacing-medium);
+}
+
+.category-toggle-button,
+.filter-button,
+.reset-button {
+  background-color: var(--color-primary-light);
+  color: var(--color-dark);
+  padding: var(--spacing-small) var(--spacing-medium);
+  border: none;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+}
+
+.category-toggle-button:hover,
+.filter-button:hover,
+.reset-button:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.category-dropdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
+  margin-top: var(--spacing-small);
+  background-color: var(--color-white);
+  padding: var(--spacing-small);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--box-shadow);
+}
+
+.category-icon {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.category-icon:hover {
+  transform: scale(1.1);
+}
+
+.category-icon.selected {
+  border: 2px solid var(--color-primary);
+  border-radius: var(--border-radius-small);
+}
+
+.filter-date-input {
+  padding: var(--spacing-small) var(--spacing-medium);
+  font-size: var(--font-size-small);
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--color-border);
+  transition: box-shadow 0.3s ease;
+  width: 100%;
+}
+
+.filter-date-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.reset-button {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.reset-button:hover {
+  background-color: rgb(21, 21, 210);
+}
+
+.amount-positive {
+  color: green;
+}
+
+.amount-negative {
+  color: red;
+}
+
+@media (min-width: 768px) {
+  .transaction-filter-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--spacing-medium);
+    padding: var(--spacing-medium) var(--spacing-large);
+  }
+
+  .filter-button,
+  .category-toggle-button,
+  .filter-date-input,
+  .reset-button {
+    width: auto;
+  }
+}
