@@ -3,7 +3,7 @@
 import React from "react";
 import { FaTrash } from "react-icons/fa";
 import "./Transaction.css";
-import alimentation from "../.assets/alimentation.png";
+import alimentation from "../../alimentation.png";
 import logement from "../../assets/logement.png";
 import loisirs from "../../assets/loisirs.png";
 import sante from "../../assets/sante.png";
