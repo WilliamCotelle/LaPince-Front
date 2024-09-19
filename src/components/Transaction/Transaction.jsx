@@ -1,9 +1,6 @@
-// Transaction.jsx
-
-import React from "react";
 import { FaTrash } from "react-icons/fa";
 import "./Transaction.css";
-import alimentation from "../../alimentation.png";
+import alimentation from "../../assets/alimentation.png";
 import logement from "../../assets/logement.png";
 import loisirs from "../../assets/loisirs.png";
 import sante from "../../assets/sante.png";
@@ -11,7 +8,6 @@ import transport from "../../assets/transport.png";
 import divertissement from "../../assets/divertissement.png";
 import autre from "../../assets/autre.png";
 import carte from "../../assets/carte.png";
-import defaultImage from "  ../../assets/default.png";
 
 export const imageMapping = {
   1: alimentation,
@@ -22,7 +18,6 @@ export const imageMapping = {
   6: divertissement,
   7: autre,
   credit: carte,
-  default: defaultImage,
 };
 
 const Transaction = ({ transactions, onDeleteTransaction }) => {
