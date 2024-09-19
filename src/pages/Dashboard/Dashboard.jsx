@@ -9,18 +9,19 @@ import {
   fetchDashboardData,
   fetchTransactions,
 } from "../../api/dashboardService";
-import { deleteTransaction } from "../../api/transactionService";
+import { deleteTransaction } from "../../api/transactionService"; // <-- import deleteTransaction
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Dashboard.css";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.jsx";
+import { useBankContext } from "../../context/BankContext";
 
 const Dashboard = () => {
   const [user, setUser] = useState({});
   const [bankAccounts, setBankAccounts] = useState([]);
-  const [selectedAccount, setSelectedAccount] = useState(null);
-  const [balance, setBalance] = useState(0);
+  const { selectedAccount, setSelectedAccount } = useBankContext();
+  const [balance, setBalance] = useState(0); // <-- Solde initial
   const [expenses, setExpenses] = useState(0);
   const [income, setIncome] = useState(0);
   const [transactions, setTransactions] = useState([]);
@@ -32,18 +33,19 @@ const Dashboard = () => {
   const [selectedAccountName, setSelectedAccountName] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  // Chargement initial du dashboard et des données de l'utilisateur
   useEffect(() => {
     const token = localStorage.getItem("token");
     fetchDashboardData(token)
       .then((data) => {
         setUser(data.user);
         setBankAccounts(data.user.bankAccounts);
-        if (data.user.bankAccounts.length > 0) {
+
+        if (!selectedAccount && data.user.bankAccounts.length > 0) {
           const initialAccount = data.user.bankAccounts[0];
           setSelectedAccount(initialAccount.id);
-          setBalance(parseFloat(initialAccount.initial_balance));
+          setBalance(parseFloat(initialAccount.initial_balance)); // <-- Solde initial au montage
         }
+
         setIsLoading(false);
       })
       .catch((err) => {
@@ -51,16 +53,14 @@ const Dashboard = () => {
         setError(err.message);
         setIsLoading(false);
       });
-  }, []);
+  }, [selectedAccount, setSelectedAccount]);
 
-  // Met à jour les dépenses et les revenus à chaque changement de compte sélectionné
   useEffect(() => {
     if (selectedAccount) {
       updateExpensesAndIncome(selectedAccount);
     }
   }, [selectedAccount]);
 
-  // Fonction pour mettre à jour les dépenses et revenus
   const updateExpensesAndIncome = async (accountId) => {
     const token = localStorage.getItem("token");
 
@@ -77,7 +77,11 @@ const Dashboard = () => {
 
       setExpenses(updatedExpenses.toFixed(2));
       setIncome(updatedIncome.toFixed(2));
-      // Mettre à jour le solde du compte ici si nécessaire
+
+      // Mise à jour du solde en fonction des transactions
+      const updatedBalance =
+        parseFloat(updatedIncome) - parseFloat(updatedExpenses);
+      setBalance(updatedBalance.toFixed(2)); // <-- Mise à jour du solde
     } catch (err) {
       console.error(
         "Erreur lors de la mise à jour des dépenses et revenus :",
@@ -87,16 +91,13 @@ const Dashboard = () => {
   };
 
   const handleAccountChange = (accountId) => {
-    // Convertir l'ID en chaîne si nécessaire pour éviter les erreurs de comparaison
     const normalizedAccountId = String(accountId);
-
-    // Trouver le compte correspondant
     const selectedBankAccount = bankAccounts.find(
-      (account) => String(account.id) === normalizedAccountId // Comparaison en tant que chaînes
+      (account) => String(account.id) === normalizedAccountId
     );
 
     if (selectedBankAccount) {
-      setBalance(parseFloat(selectedBankAccount.initial_balance));
+      setBalance(parseFloat(selectedBankAccount.initial_balance)); // <-- Mise à jour du solde lors du changement de compte
       setSelectedAccountName(selectedBankAccount.name);
     } else {
       console.error(
@@ -105,10 +106,8 @@ const Dashboard = () => {
       );
     }
 
-    // Met à jour l'ID du compte sélectionné
     setSelectedAccount(accountId);
   };
-
   const handleOpenModal = (type) => {
     setInitialTransactionType(type);
     setIsModalOpen(true);
@@ -152,6 +151,7 @@ const Dashboard = () => {
       console.error("Erreur lors de la mise à jour après transaction :", error);
     }
   };
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -179,7 +179,6 @@ const Dashboard = () => {
       },
     ],
   };
-
   const cards = [
     {
       title: "Solde",
@@ -194,11 +193,9 @@ const Dashboard = () => {
       value: parseFloat(expenses).toLocaleString(),
     },
   ];
-
   const recentTransactions = useMemo(() => {
     return transactions.slice(-8);
   }, [transactions]);
-
   if (isLoading) {
     return <LoadingSpinner />;
   }

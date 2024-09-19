@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "./Transaction.css"; // Assurez-vous que le CSS est bien lié
+import React, { useState, useEffect } from "react";
+import "./Transaction.css";
 
 // Importation des images
 import alimentationIcon from "../../assets/alimentation.png";
@@ -33,39 +33,84 @@ const iconMapping = {
   8: carteIcon,
 };
 
-const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
+const months = [
+  { value: 1, label: "Janvier" },
+  { value: 2, label: "Février" },
+  { value: 3, label: "Mars" },
+  { value: 4, label: "Avril" },
+  { value: 5, label: "Mai" },
+  { value: 6, label: "Juin" },
+  { value: 7, label: "Juillet" },
+  { value: 8, label: "Août" },
+  { value: 9, label: "Septembre" },
+  { value: 10, label: "Octobre" },
+  { value: 11, label: "Novembre" },
+  { value: 12, label: "Décembre" },
+];
+
+export default function TransactionFilter({
+  onFilter,
+  onCategoryChange,
+  onSearchChange,
+}) {
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
 
-  // Gestion de la recherche par description
+  useEffect(() => {
+    applyFilters();
+  }, [selectedCategory, searchTerm, selectedMonth]);
+
   const handleSearchChange = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
-    onSearchChange(term); // Appelle la fonction pour filtrer les transactions par description
+    onSearchChange(term);
   };
 
-  // Gestion de la catégorie sélectionnée
   const handleCategoryChange = (categoryId) => {
     const categoryIdNumber = Number(categoryId);
     const selectedCategoryNumber = Number(selectedCategory);
-
     if (selectedCategoryNumber === categoryIdNumber) {
       setSelectedCategory("");
-      onCategoryChange(""); // Aucune catégorie sélectionnée
+      onCategoryChange("");
     } else {
       setSelectedCategory(categoryIdNumber);
-      onCategoryChange(categoryIdNumber); // Envoie la nouvelle catégorie au parent
+      onCategoryChange(categoryIdNumber);
     }
   };
 
+  const handleMonthChange = (e) => {
+    setSelectedMonth(e.target.value);
+  };
+
+  const applyFilters = () => {
+    onFilter({
+      category: selectedCategory,
+      searchTerm: searchTerm,
+      month: selectedMonth,
+    });
+  };
+
   const handleFilter = (filterType) => {
-    onFilter(filterType);
+    if (filterType === "thisMonth") {
+      const currentMonth = new Date().getMonth() + 1;
+      setSelectedMonth(currentMonth.toString());
+    } else if (filterType === "lastMonth") {
+      const lastMonth = new Date().getMonth();
+      setSelectedMonth(lastMonth === 0 ? "12" : lastMonth.toString());
+    } else if (filterType === "reset") {
+      setSearchTerm("");
+      setSelectedCategory("");
+      setSelectedMonth("");
+      onFilter({});
+    } else {
+      onFilter(filterType);
+    }
   };
 
   return (
     <div className="transaction-filter-container">
-      {/* Barre de recherche */}
       <input
         type="text"
         placeholder="Rechercher par description"
@@ -74,7 +119,6 @@ const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
         className="search-bar"
       />
 
-      {/* Bouton pour afficher/fermer le menu des catégories */}
       <button
         className="category-toggle-button compact"
         onClick={() => setIsCategoryMenuOpen(!isCategoryMenuOpen)}
@@ -82,7 +126,6 @@ const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
         {isCategoryMenuOpen ? "Fermer Catégories" : "Choisir une Catégorie"}
       </button>
 
-      {/* Menu des catégories */}
       {isCategoryMenuOpen && (
         <div className="category-dropdown">
           {Object.keys(categoryMapping).map((key) => (
@@ -100,7 +143,19 @@ const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
         </div>
       )}
 
-      {/* Filtres de date */}
+      <select
+        className="filter-select"
+        value={selectedMonth}
+        onChange={handleMonthChange}
+      >
+        <option value="">Sélectionner un mois</option>
+        {months.map((month) => (
+          <option key={month.value} value={month.value}>
+            {month.label}
+          </option>
+        ))}
+      </select>
+
       <button
         className="filter-button"
         onClick={() => handleFilter("thisMonth")}
@@ -114,7 +169,6 @@ const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
         Le mois dernier
       </button>
 
-      {/* Sélecteur de date */}
       <input
         type="date"
         className="filter-date-input"
@@ -122,7 +176,6 @@ const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
         placeholder="Sélectionner une date"
       />
 
-      {/* Bouton de réinitialisation */}
       <button
         className="filter-button reset-button"
         onClick={() => handleFilter("reset")}
@@ -131,6 +184,4 @@ const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
       </button>
     </div>
   );
-};
-
-export default TransactionFilter;
+}

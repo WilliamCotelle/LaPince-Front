@@ -20,7 +20,7 @@ import { fetchCategories } from "../../api/transactionService";
 import Header from "../../components/Dashboard/DashHeader/DashHeader"; // Import du Header
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import "./AnalysisPage.css";
-
+import { useBankContext } from "../../context/BankContext";
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -36,7 +36,7 @@ ChartJS.register(
 const Analysis = () => {
   const [transactions, setTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedAccount, setSelectedAccount] = useState(null);
+  const { selectedAccount, setSelectedAccount } = useBankContext();
   const [bankAccounts, setBankAccounts] = useState([]);
   const [user, setUser] = useState({});
   const [error, setError] = useState(null);
@@ -56,16 +56,21 @@ const Analysis = () => {
         setBankAccounts(accounts);
         setUser(dashboardData.user);
 
-        if (accounts.length > 0) {
+        if (accounts.length > 0 && !selectedAccount) {
           const accountId = accounts[0].id;
-          setSelectedAccount(accountId);
-
-          const categoriesData = await fetchCategories(token);
-          setCategories(categoriesData);
-
+          setSelectedAccount(accountId); // Si aucun compte sélectionné, on prend le premier
           const transactionsData = await fetchTransactions(token, accountId);
           setTransactions(transactionsData);
+        } else if (selectedAccount) {
+          const transactionsData = await fetchTransactions(
+            token,
+            selectedAccount
+          ); // Si un compte est déjà sélectionné, on l'utilise
+          setTransactions(transactionsData);
         }
+
+        const categoriesData = await fetchCategories(token);
+        setCategories(categoriesData);
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);
         setError(error.message);

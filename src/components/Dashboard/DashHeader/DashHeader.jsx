@@ -1,20 +1,13 @@
-import { useState, useEffect } from "react";
+import { useBankContext } from "../../../context/BankContext";
 import "./DashHeader.css"; // Importation du fichier CSS
 
 const Header = ({ user, bankAccounts, onAccountChange }) => {
-  const [selectedAccount, setSelectedAccount] = useState("");
-
-  // Cette fonction se déclenche uniquement si aucun compte n'est encore sélectionné.
-  useEffect(() => {
-    if (bankAccounts.length > 0 && selectedAccount === "") {
-      setSelectedAccount(bankAccounts[0].id);
-      onAccountChange(bankAccounts[0].id);
-    }
-  }, [bankAccounts, onAccountChange, selectedAccount]);
+  const { selectedAccount, setSelectedAccount } = useBankContext();
 
   const handleAccountChange = (event) => {
-    setSelectedAccount(event.target.value);
-    onAccountChange(event.target.value);
+    const newAccountId = event.target.value;
+    setSelectedAccount(newAccountId);
+    onAccountChange(newAccountId);
   };
 
   return (

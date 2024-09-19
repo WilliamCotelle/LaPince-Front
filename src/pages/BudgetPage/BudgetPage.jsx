@@ -13,7 +13,7 @@ import BudgetModal from "../../components/Budget/BudgetModal";
 import Header from "../../components/Dashboard/DashHeader/DashHeader";
 import "react-toastify/dist/ReactToastify.css";
 import "./BudgetPage.css";
-
+import { useBankContext } from "../../context/BankContext";
 const BudgetPage = () => {
   const [budgets, setBudgets] = useState([]);
   const [newBudget, setNewBudget] = useState({
@@ -22,11 +22,11 @@ const BudgetPage = () => {
   });
   const [showMore, setShowMore] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedAccount, setSelectedAccount] = useState(null);
+  const { selectedAccount, setSelectedAccount } = useBankContext();
   const [bankAccounts, setBankAccounts] = useState([]);
   const [user, setUser] = useState({});
   const navigate = useNavigate();
-  const budgetColors = ["#FF5733", "#33FF57", "#3357FF", "#F4A460", "#8A2BE2"];
+  const budgetColors = ["#3f51b5"];
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -38,10 +38,13 @@ const BudgetPage = () => {
         setBankAccounts(accounts);
         setUser(dashboardData.user);
 
-        if (accounts.length > 0) {
+        if (accounts.length > 0 && !selectedAccount) {
           const accountId = accounts[0].id;
           setSelectedAccount(accountId);
           await loadBudgets(accountId);
+        } else if (selectedAccount) {
+          // If an account is already selected (from context or elsewhere), load the budgets for it
+          await loadBudgets(selectedAccount);
         }
       } catch (error) {
         console.error("Erreur lors de la récupération des données:", error);

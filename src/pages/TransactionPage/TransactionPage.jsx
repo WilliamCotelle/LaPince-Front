@@ -9,16 +9,17 @@ import { deleteTransaction } from "../../api/transactionService";
 import Header from "../../components/Dashboard/DashHeader/DashHeader";
 import "./TransactionPage.css";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-
+import { useBankContext } from "../../context/BankContext";
 const TransactionsPage = () => {
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [bankAccounts, setBankAccounts] = useState([]);
-  const [selectedAccount, setSelectedAccount] = useState(null);
+  const { selectedAccount, setSelectedAccount } = useBankContext();
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -29,12 +30,7 @@ const TransactionsPage = () => {
         const accounts = response.user.bankAccounts;
         setBankAccounts(accounts);
         setUser(response.user);
-
-        if (accounts.length > 0 && !selectedAccount) {
-          const initialAccount = accounts[0].id;
-          setSelectedAccount(initialAccount);
-          setIsLoading(false);
-        }
+        setIsLoading(false);
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des comptes bancaires:",
@@ -83,43 +79,57 @@ const TransactionsPage = () => {
       console.error("Erreur lors de la récupération des transactions:", error);
     }
   };
-
-  const handleFilter = (filterType) => {
-    if (filterType === "reset") {
+  const handleMonthChange = (month) => {
+    setSelectedMonth(month);
+    handleFilter({ searchTerm, category: selectedCategory, month });
+  };
+  const handleFilter = (filterCriteria) => {
+    if (filterCriteria === "reset") {
       setFilteredTransactions(transactions);
-      setIsLoading(false);
       return;
     }
 
-    const currentDate = new Date();
-    let filtered = [];
+    const filtered = transactions.filter((transaction) => {
+      const transactionDate = new Date(transaction.transaction_date);
+      const transactionMonth = transactionDate.getMonth() + 1; // Les mois commencent à 0 en JavaScript
 
-    if (filterType === "thisMonth") {
-      filtered = transactions.filter((transaction) => {
-        const transactionDate = new Date(transaction.transaction_date);
-        return (
+      let categoryMatch = true;
+      let searchMatch = true;
+      let monthMatch = true;
+
+      if (typeof filterCriteria === "object") {
+        // Nouveau format de filtre
+        categoryMatch =
+          !filterCriteria.category ||
+          mapCategory(transaction) === parseInt(filterCriteria.category);
+        searchMatch =
+          !filterCriteria.searchTerm ||
+          transaction.description
+            .toLowerCase()
+            .includes(filterCriteria.searchTerm.toLowerCase());
+        monthMatch =
+          !filterCriteria.month ||
+          transactionMonth === parseInt(filterCriteria.month);
+      } else if (filterCriteria === "thisMonth") {
+        const currentDate = new Date();
+        monthMatch =
           transactionDate.getMonth() === currentDate.getMonth() &&
-          transactionDate.getFullYear() === currentDate.getFullYear()
-        );
-      });
-    } else if (filterType === "lastMonth") {
-      const lastMonthDate = new Date();
-      lastMonthDate.setMonth(currentDate.getMonth() - 1);
-      filtered = transactions.filter((transaction) => {
-        const transactionDate = new Date(transaction.transaction_date);
-        return (
+          transactionDate.getFullYear() === currentDate.getFullYear();
+      } else if (filterCriteria === "lastMonth") {
+        const lastMonthDate = new Date();
+        lastMonthDate.setMonth(lastMonthDate.getMonth() - 1);
+        monthMatch =
           transactionDate.getMonth() === lastMonthDate.getMonth() &&
-          transactionDate.getFullYear() === lastMonthDate.getFullYear()
-        );
-      });
-    } else {
-      filtered = transactions.filter((transaction) => {
-        const transactionDate = new Date(
-          transaction.transaction_date
-        ).toDateString();
-        return transactionDate === new Date(filterType).toDateString();
-      });
-    }
+          transactionDate.getFullYear() === lastMonthDate.getFullYear();
+      } else if (typeof filterCriteria === "string") {
+        // Filtre par date spécifique
+        monthMatch =
+          transactionDate.toDateString() ===
+          new Date(filterCriteria).toDateString();
+      }
+
+      return categoryMatch && searchMatch && monthMatch;
+    });
 
     setFilteredTransactions(filtered);
   };
@@ -133,12 +143,12 @@ const TransactionsPage = () => {
 
   const handleSearchChange = (searchTerm) => {
     setSearchTerm(searchTerm);
-    filterTransactions(searchTerm, selectedCategory);
+    handleFilter({ searchTerm, category: selectedCategory, month: "" });
   };
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
-    filterTransactions(searchTerm, categoryId);
+    handleFilter({ searchTerm, category: categoryId, month: "" });
   };
 
   const filterTransactions = (term, categoryId) => {
@@ -179,6 +189,7 @@ const TransactionsPage = () => {
         onFilter={handleFilter}
         onSearchChange={handleSearchChange}
         onCategoryChange={handleCategoryChange}
+        onMonthChange={handleMonthChange}
       />
 
       {filteredTransactions.length > 0 ? (
