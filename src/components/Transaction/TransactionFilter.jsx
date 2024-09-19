@@ -1,5 +1,16 @@
 import React, { useState } from "react";
 import "./Transaction.css"; // Assurez-vous que le CSS est bien lié
+
+// Importation des images
+import alimentationIcon from "../../assets/alimentation.png";
+import logementIcon from "../../assets/logement.png";
+import loisirsIcon from "../../assets/loisirs.png";
+import santeIcon from "../../assets/sante.png";
+import transportIcon from "../../assets/transport.png";
+import divertissementIcon from "../../assets/divertissement.png";
+import autreIcon from "../../assets/autre.png";
+import carteIcon from "../../assets/carte.png";
+
 const categoryMapping = {
   1: "alimentation",
   2: "logement",
@@ -10,46 +21,48 @@ const categoryMapping = {
   7: "autre",
   8: "crédit",
 };
+
 const iconMapping = {
-  1: "src/assets/alimentation.png",
-  2: "src/assets/logement.png",
-  3: "src/assets/loisirs.png",
-  4: "src/assets/sante.png",
-  5: "src/assets/transport.png",
-  6: "src/assets/divertissement.png",
-  7: "src/assets/autre.png",
-  8: "src/assets/carte.png",
-  default: "src/assets/default_image.png",
+  1: alimentationIcon,
+  2: logementIcon,
+  3: loisirsIcon,
+  4: santeIcon,
+  5: transportIcon,
+  6: divertissementIcon,
+  7: autreIcon,
+  8: carteIcon,
 };
+
 const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+
   // Gestion de la recherche par description
   const handleSearchChange = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
     onSearchChange(term); // Appelle la fonction pour filtrer les transactions par description
   };
+
   // Gestion de la catégorie sélectionnée
   const handleCategoryChange = (categoryId) => {
-    // Convertir categoryId en nombre
     const categoryIdNumber = Number(categoryId);
     const selectedCategoryNumber = Number(selectedCategory);
-    // Comparaison des catégories comme nombres
+
     if (selectedCategoryNumber === categoryIdNumber) {
-      // Si la catégorie est déjà sélectionnée, on la "décochera" (réinitialisation)
       setSelectedCategory("");
       onCategoryChange(""); // Aucune catégorie sélectionnée
     } else {
-      // Sinon, on sélectionne la nouvelle catégorie
       setSelectedCategory(categoryIdNumber);
       onCategoryChange(categoryIdNumber); // Envoie la nouvelle catégorie au parent
     }
   };
+
   const handleFilter = (filterType) => {
     onFilter(filterType);
   };
+
   return (
     <div className="transaction-filter-container">
       {/* Barre de recherche */}
@@ -60,6 +73,7 @@ const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
         onChange={handleSearchChange}
         className="search-bar"
       />
+
       {/* Bouton pour afficher/fermer le menu des catégories */}
       <button
         className="category-toggle-button compact"
@@ -67,6 +81,7 @@ const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
       >
         {isCategoryMenuOpen ? "Fermer Catégories" : "Choisir une Catégorie"}
       </button>
+
       {/* Menu des catégories */}
       {isCategoryMenuOpen && (
         <div className="category-dropdown">
@@ -78,12 +93,13 @@ const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
               className={`category-icon ${
                 selectedCategory === Number(key) ? "selected" : ""
               }`}
-              onClick={() => handleCategoryChange(key)} // Passer l'ID au lieu du nom
+              onClick={() => handleCategoryChange(key)}
               title={categoryMapping[key]}
             />
           ))}
         </div>
       )}
+
       {/* Filtres de date */}
       <button
         className="filter-button"
@@ -97,6 +113,7 @@ const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
       >
         Le mois dernier
       </button>
+
       {/* Sélecteur de date */}
       <input
         type="date"
@@ -104,6 +121,7 @@ const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
         onChange={(e) => handleFilter(e.target.value)}
         placeholder="Sélectionner une date"
       />
+
       {/* Bouton de réinitialisation */}
       <button
         className="filter-button reset-button"
@@ -114,4 +132,5 @@ const TransactionFilter = ({ onFilter, onCategoryChange, onSearchChange }) => {
     </div>
   );
 };
+
 export default TransactionFilter;

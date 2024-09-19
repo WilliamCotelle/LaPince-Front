@@ -22,11 +22,6 @@
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.budget-item:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
 .budget-item h3 {
   font-size: var(--font-size-large);
   margin-bottom: var(--spacing-small);
@@ -74,6 +69,7 @@
 .btn-secondary {
   background-color: var(--color-secondary-light);
   color: var(--color-text);
+  margin-left: 1rem;
 }
 
 .btn-secondary:hover {
@@ -124,6 +120,60 @@
   right: 10px;
   cursor: pointer;
   color: red;
+}
+/* ... Vos styles existants ... */
+
+/* Styles spécifiques au composant BudgetProgress */
+
+.chart-container-budget {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: var(--spacing-medium) auto;
+}
+
+.chart-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.chart-center p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Centrer le contenu du budget-item */
+.budget-item {
+  text-align: center;
+  margin: var(--spacing-medium);
+  width: calc(100% - var(--spacing-large));
+  max-width: 300px;
+}
+
+/* Ajustements pour les petits écrans */
+@media (max-width: 768px) {
+  .budget-item {
+    width: calc(50% - var(--spacing-large));
+  }
+
+  .chart-container {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+@media (max-width: 480px) {
+  .budget-item {
+    width: 100%;
+  }
+
+  .chart-container {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 /* Responsive styles */
