@@ -31,7 +31,6 @@ export const fetchTransactionsByCategory = async (
     return await response.json();
   } catch (error) {
     // Affiche un message d'erreur en cas d'exception
-    toast.error("Erreur lors de la récupération des transactions");
     return null;
   }
 };
@@ -58,7 +57,6 @@ export const fetchBudgets = async (accountId) => {
     return await response.json();
   } catch (error) {
     // Affiche un message d'erreur en cas d'exception
-    toast.error("Erreur lors de la récupération des budgets");
     return [];
   }
 };

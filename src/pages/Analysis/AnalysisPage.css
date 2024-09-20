@@ -45,7 +45,15 @@
   letter-spacing: 0.5px;
   /* Légère variation d'espacement des lettres pour un meilleur style */
 }
-
+.no-data-message {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  margin-top: 20px;
+}
 /* Ajuste les tailles des titres sur les petits écrans */
 @media (max-width: 768px) {
   .chart-titles {

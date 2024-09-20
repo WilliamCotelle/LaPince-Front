@@ -35,6 +35,18 @@
   border-radius: var(--border-radius-medium);
   transition: transform 0.3s ease-in-out;
 }
+.password-criteria {
+  margin-top: 5px;
+  font-size: 0.9em;
+}
+.password-criteria p {
+  color: red;
+  font-size: 0.9em;
+}
+
+.password-criteria p.valid {
+  color: green;
+}
 
 .auth-container h2 {
   margin-bottom: var(--spacing-large);

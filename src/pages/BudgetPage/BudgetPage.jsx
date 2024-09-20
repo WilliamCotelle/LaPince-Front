@@ -57,6 +57,14 @@ const BudgetPage = () => {
   const loadBudgets = async (accountId) => {
     try {
       const budgets = await fetchBudgets(accountId);
+
+      // Si aucun budget n'est trouvé, on initialise avec une liste vide et sort de la fonction
+      if (!budgets || budgets.length === 0) {
+        setBudgets([]); // Initialiser budgets avec une liste vide pour éviter les erreurs
+        return;
+      }
+
+      // Si des budgets existent, on continue avec le chargement des transactions
       const budgetsWithTransactions = await Promise.all(
         budgets.map(async (budget) => {
           const transactionsData = await fetchTransactionsByCategory(
@@ -72,6 +80,7 @@ const BudgetPage = () => {
           };
         })
       );
+
       setBudgets(budgetsWithTransactions);
     } catch (error) {
       console.error("Erreur lors de la récupération des budgets:", error);
@@ -146,18 +155,27 @@ const BudgetPage = () => {
         Créer un nouveau budget
       </button>
 
-      <div className="budgets-list">
-        {budgets
-          .slice(0, showMore ? budgets.length : 3)
-          .map((budget, index) => (
-            <BudgetProgress
-              key={budget.id}
-              budget={budget}
-              color={budgetColors[index % budgetColors.length]}
-              onDelete={handleDeleteBudget}
-            />
-          ))}
-      </div>
+      {budgets.length === 0 ? (
+        <div className="no-data-message">
+          <h2>Aucun budget disponible pour ce compte bancaire.</h2>
+          <p>
+            Vous n'avez pas encore de budget. Veuillez créer un nouveau budget.
+          </p>
+        </div>
+      ) : (
+        <div className="budgets-list">
+          {budgets
+            .slice(0, showMore ? budgets.length : 3)
+            .map((budget, index) => (
+              <BudgetProgress
+                key={budget.id}
+                budget={budget}
+                color={budgetColors[index % budgetColors.length]}
+                onDelete={handleDeleteBudget}
+              />
+            ))}
+        </div>
+      )}
 
       {budgets.length > 3 && (
         <button
@@ -178,5 +196,4 @@ const BudgetPage = () => {
     </div>
   );
 };
-
 export default BudgetPage;

@@ -46,27 +46,28 @@ const CategoryDoughnutChart = ({ transactions }) => {
   ];
 
   const chartData = useMemo(() => {
-    if (!transactions.length || !categories.length) return null;
+    // Si aucune transaction de type "debit", afficher un graphique vide
+    const debitTransactions = transactions.filter(
+      (transaction) => transaction.transaction_type === "debit"
+    );
+
+    if (!debitTransactions.length || !categories.length) {
+      return null; // Retourne null si aucune transaction de type "debit" n'existe
+    }
 
     const categoryMap = {};
-    let otherTotal = 0;
+    debitTransactions.forEach((transaction) => {
+      const category = categories.find(
+        (cat) => cat.id === transaction.id_category
+      );
+      const categoryName = category ? category.name_category : "Non catégorisé";
+      const amount = parseFloat(transaction.amount);
 
-    transactions
-      .filter((transaction) => transaction.transaction_type === "debit")
-      .forEach((transaction) => {
-        const category = categories.find(
-          (cat) => cat.id === transaction.id_category
-        );
-        const categoryName = category
-          ? category.name_category
-          : "Non catégorisé";
-        const amount = parseFloat(transaction.amount);
-
-        if (!categoryMap[categoryName]) {
-          categoryMap[categoryName] = 0;
-        }
-        categoryMap[categoryName] += amount;
-      });
+      if (!categoryMap[categoryName]) {
+        categoryMap[categoryName] = 0;
+      }
+      categoryMap[categoryName] += amount;
+    });
 
     let sortedCategories = Object.entries(categoryMap).sort(
       (a, b) => b[1] - a[1]
@@ -168,8 +169,23 @@ const CategoryDoughnutChart = ({ transactions }) => {
       </div>
     </div>
   ) : (
-    <div className="no-transaction">Aucune transaction disponible</div>
+    <div className="chart-container card">
+      <h3 className="chart-title">Aucune donnée disponible</h3>
+      <div className="doughnut-container">
+        <Doughnut
+          data={{
+            labels: ["Pas de données"],
+            datasets: [
+              {
+                data: [1],
+                backgroundColor: ["#E0E0E0"], // Couleur grise pour le graphique vide
+              },
+            ],
+          }}
+          options={chartOptions}
+        />
+      </div>
+    </div>
   );
 };
-
 export default CategoryDoughnutChart;

@@ -6,14 +6,14 @@ import {
 import "./TransactionModal.css";
 import Calculator from "../Calculator/Calculator";
 
-// Importer les icônes
+// Import icons
 import alimentationIcon from "../../../assets/alimentation.png";
 import logementIcon from "../../../assets/logement.png";
 import loisirsIcon from "../../../assets/loisirs.png";
 import santeIcon from "../../../assets/sante.png";
 import transportIcon from "../../../assets/transport.png";
 
-// Dictionnaire pour mapper les catégories aux icônes
+// Category icons mapping
 const categoryIcons = {
   Alimentation: alimentationIcon,
   Logement: logementIcon,
@@ -37,8 +37,9 @@ const TransactionModal = ({
   const [amount, setAmount] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [categories, setCategories] = useState([]);
-  const [description, setDescription] = useState(""); // Nouveau champ pour la description
+  const [description, setDescription] = useState("");
   const [error, setError] = useState("");
+
   useEffect(() => {
     setTransactionType(initialTransactionType || "credit");
   }, [initialTransactionType]);
@@ -55,33 +56,29 @@ const TransactionModal = ({
 
   useEffect(() => {
     if (isOpen) {
-      setAmount(""); // Réinitialise le montant à chaque ouverture
-      setDescription(""); // Réinitialise la description à chaque ouverture
+      setAmount("");
+      setDescription("");
     }
   }, [isOpen]);
 
   const handleOverlayClick = (e) => {
     if (e.target.classList.contains("modal-overlay")) {
-      onClose(); // Ferme la modal si on clique en dehors
+      onClose();
     }
   };
 
-  // Empêche la saisie de valeurs négatives dans le champ de montant
   const handleAmountChange = (e) => {
     const value = e.target.value;
-
-    // Vérifie que la valeur est un nombre valide et positif
     if (!isNaN(value) && Number(value) >= 0) {
-      setAmount(value); // Met à jour seulement si la valeur est positive ou zéro
+      setAmount(value);
     }
   };
 
   const handleCreateTransaction = async () => {
     try {
-      // Vérifier que la catégorie est obligatoire si le type de transaction est 'debit'
       if (transactionType === "debit" && !categoryId) {
         setError("Veuillez sélectionner une catégorie pour les dépenses.");
-        return; // Arrête l'exécution si la catégorie n'est pas sélectionnée
+        return;
       }
 
       const token = localStorage.getItem("token");
@@ -90,7 +87,7 @@ const TransactionModal = ({
         transaction_type: transactionType,
         amount: parseFloat(amount),
         id_category: transactionType === "debit" ? categoryId : null,
-        description, // Inclure la description
+        description,
       };
 
       const transaction = await createTransaction(token, transactionData);
@@ -112,65 +109,88 @@ const TransactionModal = ({
     : null;
 
   return (
-    <div className="modal-overlay" onClick={handleOverlayClick}>
-      <div className="modal-content">
+    <div className="modal-overlay-dashboard" onClick={handleOverlayClick}>
+      <div className="modal-content-dashboard">
         <button className="modal-close-button" onClick={onClose}>
           ×
         </button>
-        <h3>Ajouter une transaction pour {selectedAccountName}</h3>
+        <h3 className="modal-title">
+          Ajouter une transaction pour {selectedAccountName}
+        </h3>
         {error && <p className="error-message">{error}</p>}
 
-        {transactionType === "debit" && (
-          <select
-            className="modal-option"
-            value={categoryId}
-            onChange={(e) => setCategoryId(e.target.value)}
-          >
-            <option className="modal-option" value="">
-              Sélectionnez une catégorie
-            </option>
-            {categories.map((category) => (
-              <option
-                className="modal-option"
-                key={category.id}
-                value={category.id}
+        <div className="modal-form">
+          {transactionType === "debit" && (
+            <div className="form-group-modal">
+              <label htmlFor="category" className="form-label-modal">
+                Catégorie
+              </label>
+              <select
+                id="category"
+                className="modal-select"
+                value={categoryId}
+                onChange={(e) => setCategoryId(e.target.value)}
               >
-                {category.name_category}
-              </option>
-            ))}
-          </select>
-        )}
+                <option value="">Sélectionnez une catégorie</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name_category}
+                  </option>
+                ))}
+              </select>
+              {iconSrc && (
+                <img
+                  src={iconSrc}
+                  alt="Category Icon"
+                  className="category-icon"
+                />
+              )}
+            </div>
+          )}
 
-        <input
-          className="modal-input"
-          type="text"
-          value={amount}
-          onChange={handleAmountChange} // Utilise handleAmountChange ici
-          placeholder="Montant"
-          onKeyDown={(e) => {
-            if (e.key === "-" || e.key === "e" || e.key === "+") {
-              e.preventDefault(); // Empêche la saisie du caractère "-" et de "e"
-            }
-          }}
-        />
+          <div className="form-group-modal">
+            <label htmlFor="amount" className="form-label-modal">
+              Montant
+            </label>
+            <input
+              id="amount"
+              className="modal-input"
+              type="text"
+              value={amount}
+              onChange={handleAmountChange}
+              placeholder="Montant"
+              onKeyDown={(e) => {
+                if (e.key === "-" || e.key === "e" || e.key === "+") {
+                  e.preventDefault();
+                }
+              }}
+            />
+          </div>
 
-        <input
-          className="modal-input"
-          type="text"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Description (optionnelle)"
-        />
+          <div className="form-group-modal">
+            <label htmlFor="description" className="form-label-modal">
+              Description (optionnelle)
+            </label>
+            <input
+              id="description"
+              className="modal-input"
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Description"
+            />
+          </div>
 
-        <Calculator amount={amount} setAmount={setAmount} />
+          <Calculator amount={amount} setAmount={setAmount} />
 
-        <div className="modal-actions">
-          <button className="add-button" onClick={handleCreateTransaction}>
-            Ajouter
-          </button>
-          <button onClick={onClose} className="cancel-button">
-            Annuler
-          </button>
+          <div className="modal-actions">
+            <button className="add-button" onClick={handleCreateTransaction}>
+              Ajouter
+            </button>
+            <button onClick={onClose} className="cancel-button">
+              Annuler
+            </button>
+          </div>
         </div>
       </div>
     </div>

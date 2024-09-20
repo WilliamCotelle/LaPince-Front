@@ -44,6 +44,7 @@ const Dashboard = () => {
           const initialAccount = data.user.bankAccounts[0];
           setSelectedAccount(initialAccount.id);
           setBalance(parseFloat(initialAccount.initial_balance)); // <-- Solde initial au montage
+          setSelectedAccountName(initialAccount.name);
         }
 
         setIsLoading(false);
@@ -95,6 +96,7 @@ const Dashboard = () => {
     const selectedBankAccount = bankAccounts.find(
       (account) => String(account.id) === normalizedAccountId
     );
+    setSelectedAccountName(selectedBankAccount.name);
 
     if (selectedBankAccount) {
       setBalance(parseFloat(selectedBankAccount.initial_balance)); // <-- Mise à jour du solde lors du changement de compte
@@ -124,6 +126,7 @@ const Dashboard = () => {
       setTransactions(
         transactions.filter((transaction) => transaction.id !== transactionId)
       );
+      updateExpensesAndIncome(selectedAccount);
     } else {
       console.error(
         "Erreur lors de la suppression de la transaction:",

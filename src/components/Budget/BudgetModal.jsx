@@ -36,8 +36,8 @@ const BudgetModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="modal-overlay-budget">
+      <div className="modal-content-budget">
         <h2>Créer un nouveau budget</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">

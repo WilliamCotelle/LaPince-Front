@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
-
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -8,7 +7,6 @@ const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
-
   useEffect(() => {
     const verifyToken = async () => {
       const token = localStorage.getItem("token");
@@ -40,17 +38,27 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (token) => {
-    localStorage.setItem("token", token);
-    setIsAuthenticated(true);
-    setError(null);
+    try {
+      const decodedToken = jwtDecode(token);
+      localStorage.setItem("token", token);
+      setIsAuthenticated(true);
+      setUserProfile(decodedToken); // Mise à jour du profil utilisateur
+      setError(null);
+    } catch (error) {
+      console.error("Erreur lors de la décode du token:", error);
+      setIsAuthenticated(false);
+      setError("Erreur d'authentification");
+    }
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("selectedAccount");
     setIsAuthenticated(false);
     setError(null);
     setUserProfile(null);
+    window.location.reload();
   };
 
   return (

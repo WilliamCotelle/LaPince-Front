@@ -198,7 +198,13 @@ const TransactionsPage = () => {
           onDeleteTransaction={handleDeleteTransaction}
         />
       ) : (
-        <p>Aucune transaction disponible.</p>
+        <div className="no-data-message">
+          <h2>Aucune donnée disponible</h2>
+          <p>
+            Vous n'avez pas encore de transactions. Veuillez effectuer des
+            transactions pour visualiser la liste des transactions.
+          </p>
+        </div>
       )}
     </div>
   );

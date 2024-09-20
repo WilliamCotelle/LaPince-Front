@@ -84,7 +84,6 @@ const Analysis = () => {
   const handleAccountChange = async (accountId) => {
     setSelectedAccount(accountId);
     const token = localStorage.getItem("token");
-
     try {
       const transactionsData = await fetchTransactions(token, accountId);
       setTransactions(transactionsData);
@@ -232,10 +231,6 @@ const Analysis = () => {
     },
   };
 
-  if (error) {
-    return <p>Erreur: {error}</p>;
-  }
-
   return (
     <div className="analysis">
       {/* Ajout du Header avec gestion du changement de compte */}
@@ -244,42 +239,57 @@ const Analysis = () => {
         bankAccounts={bankAccounts}
         onAccountChange={handleAccountChange}
       />
-      <div className="charts-analysis">
-        <div className="chart-container-analysis">
-          <h2 className="chart-titles">Transactions Mensuelles</h2>
-          {barChartData ? (
-            <Bar ref={barChartRef} data={barChartData} options={chartOptions} />
-          ) : (
-            <LoadingSpinner />
-          )}
+
+      {/* Vérification si les transactions existent */}
+      {transactions.length === 0 ? (
+        <div className="no-data-message">
+          <h2>Aucune donnée disponible</h2>
+          <p>
+            Vous n'avez pas encore de transactions. Veuillez effectuer des
+            transactions pour visualiser les graphiques.
+          </p>
         </div>
-        <div className="chart-container-analysis">
-          <h2 className="chart-titles">Répartition par Catégorie</h2>
-          {categoryChartData ? (
-            <Doughnut
-              ref={doughnutChartRef}
-              data={categoryChartData}
-              options={chartOptions}
-            />
-          ) : (
-            <LoadingSpinner />
-          )}
+      ) : (
+        <div className="charts-analysis">
+          <div className="chart-container-analysis">
+            <h2 className="chart-titles">Transactions Mensuelles</h2>
+            {barChartData ? (
+              <Bar
+                ref={barChartRef}
+                data={barChartData}
+                options={chartOptions}
+              />
+            ) : (
+              <LoadingSpinner />
+            )}
+          </div>
+          <div className="chart-container-analysis">
+            <h2 className="chart-titles">Répartition par Catégorie</h2>
+            {categoryChartData ? (
+              <Doughnut
+                ref={doughnutChartRef}
+                data={categoryChartData}
+                options={chartOptions}
+              />
+            ) : (
+              <LoadingSpinner />
+            )}
+          </div>
+          <div className="chart-container-analysis">
+            <h2 className="chart-titles">Total des Transactions Mensuelles</h2>
+            {lineChartData ? (
+              <Line
+                ref={lineChartRef}
+                data={lineChartData}
+                options={chartOptions}
+              />
+            ) : (
+              <LoadingSpinner />
+            )}
+          </div>
         </div>
-        <div className="chart-container-analysis">
-          <h2 className="chart-titles">Total des Transactions Mensuelles</h2>
-          {lineChartData ? (
-            <Line
-              ref={lineChartRef}
-              data={lineChartData}
-              options={chartOptions}
-            />
-          ) : (
-            <LoadingSpinner />
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 };
-
 export default Analysis;

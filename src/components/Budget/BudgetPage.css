@@ -76,7 +76,7 @@
   background-color: #5a6268;
 }
 
-.modal-overlay {
+.modal-overlay-budget {
   position: fixed;
   top: 0;
   left: 0;
@@ -88,7 +88,7 @@
   justify-content: center;
 }
 
-.modal-content {
+.modal-content-budget {
   background-color: var(--color-white);
   padding: var(--spacing-large);
   border-radius: var(--border-radius-medium);
@@ -159,7 +159,7 @@
     width: calc(50% - var(--spacing-large));
   }
 
-  .chart-container {
+  .chart-container-budget {
     width: 130px;
     height: 130px;
   }
@@ -170,7 +170,7 @@
     width: 100%;
   }
 
-  .chart-container {
+  .chart-container-budget {
     width: 100px;
     height: 100px;
   }

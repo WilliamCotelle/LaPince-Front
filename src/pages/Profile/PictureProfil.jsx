@@ -16,7 +16,7 @@ const PictureProfil = () => {
       try {
         const userProfile = await getUserProfile();
         setUser(userProfile);
-        setProfileImageUrl(`${APIBaseURL}${userProfile.profilPicture}`); // Initialiser l'image de profil
+        setProfileImageUrl(`${APIBaseURL}${userProfile.user.profilPicture}`); // Initialiser l'image de profil
       } catch (error) {
         setUploadMessage("Erreur lors du chargement du profil.");
       }
